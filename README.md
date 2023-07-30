@@ -1,4 +1,4 @@
-# A Starter Gulp Template
+# A Starter Gulp Tailwindcss Template
 
 ## How to use
 - clone this repo
@@ -15,7 +15,7 @@
 - browser-sync
 - gulp-sass
 - gulp-autoprefixer
-- gulp-group-css-media-queries
+- tailwindcss
 - gulp-file-include
 - gulp-clean-css
 - gulp-uglify-es
