@@ -3,7 +3,7 @@
 ## How to use
 - clone this repo
 - type ```$ npm install ``` for install plugins
-- type ```$ gulp ``` for run
+- type ```$ gulp ``` for run or compile to prod
 
 ## Standalone functions:
 - type ```$ gulp min``` for create min.css and min.js files
@@ -15,9 +15,10 @@
 - browser-sync
 - gulp-sass
 - gulp-autoprefixer
-- tailwindcss
 - gulp-file-include
 - gulp-clean-css
 - gulp-uglify-es
 - gulp-rename
 - del
+- tailwindcss
+- daisyui tailwindcss plugin
