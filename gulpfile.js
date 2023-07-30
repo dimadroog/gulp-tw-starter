@@ -54,7 +54,7 @@ function browserSync(params){
 function html(){
     return src(patch.src.html)
         .pipe(fileinclude())
-        .pipe(css())
+        .pipe(css()) //for tailwind compile
         .pipe(dest(patch.build.html))
         .pipe(browsersync.stream())
 }
@@ -69,7 +69,7 @@ function css(){
         tailwindcss(),
     ];
     return src(patch.src.css)
-        .pipe(sass().on('error', sass.logError))
+        .pipe(sass())
         .pipe(postcss(plugins))
         .pipe(dest(patch.build.css))
         .pipe(browsersync.stream())
@@ -78,6 +78,7 @@ function css(){
 function js(){
     return src(patch.src.js)
         .pipe(fileinclude())
+        .pipe(css()) //for tailwind compile
         // .pipe(babel({
         //     presets: ['@babel/env']
         // }))

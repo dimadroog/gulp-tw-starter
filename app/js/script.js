@@ -1,1 +1,1 @@
-console.log('index');
+const button = document.querySelector('.text-xs');
