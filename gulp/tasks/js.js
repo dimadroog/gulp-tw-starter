@@ -1,3 +1,4 @@
+import browsersync from "browser-sync";
 import webpack from 'webpack-stream';
 import UnminifiedWebpackPlugin from 'unminified-webpack-plugin';
 import { scss } from './scss.js';
@@ -26,5 +27,5 @@ export const js = () => {
             })
         )
         .pipe(app.gulp.dest(app.path.build.js))
-        .pipe(app.plugins.browsersync.stream());
+        .pipe(browsersync.stream());
 };

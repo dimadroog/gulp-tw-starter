@@ -1,13 +1,16 @@
+import browsersync from "browser-sync";
+import newer from "gulp-newer";
 import webp from 'gulp-webp';
 import imagemin from 'gulp-imagemin';
+import gulpIf from "gulp-if";
 
 export const img = () => {
     return app.gulp
         .src(app.path.src.img)
 
-        .pipe(app.plugins.newer(app.path.build.img))
+        .pipe(newer(app.path.build.img))
         .pipe(
-            app.plugins.if(
+            gulpIf(
                 app.modeWebp,
                 webp()
             )
@@ -16,7 +19,7 @@ export const img = () => {
 
 
         .pipe(app.gulp.src(app.path.src.img))
-        .pipe(app.plugins.newer(app.path.build.img))
+        .pipe(newer(app.path.build.img))
         .pipe(
             imagemin({
                 progressive: true,
@@ -26,5 +29,5 @@ export const img = () => {
             })
         )
         .pipe(app.gulp.dest(app.path.build.img))
-        .pipe(app.plugins.browsersync.stream());
+        .pipe(browsersync.stream());
 };

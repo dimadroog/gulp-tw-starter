@@ -1,4 +1,4 @@
-# A Starter Gulp Template
+# A Starter Gulp Tailwindcss Template
 
 ## How to use
 - clone this repo
