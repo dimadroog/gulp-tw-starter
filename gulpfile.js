@@ -1,174 +1,35 @@
-let source_folder = 'app';
-let project_folder = 'dist';
+import gulp from 'gulp';
 
-let patch = {
-    build: {
-        html: project_folder + '/',
-        css: project_folder + '/css/',
-        js: project_folder + '/js/',
-        img: project_folder + '/img/',
-        fonts: project_folder + '/fonts/',
-        lib: project_folder + '/lib/',
-    },
-    src: {
-        html: [source_folder + '/*.html', '!' + source_folder + '/_*.html'],
-        css: [source_folder + '/scss/*.scss', '!' + source_folder + '/scss/_*.scss'],
-        js: [source_folder + '/js/*.js', '!' + source_folder + '/js/_*.js'],
-        img: source_folder + '/img/**/*.{jpg,png,svg,gif,ico,webp,mp4,webm,webmanifest}',
-        fonts: source_folder + '/fonts/**/*',
-        lib: [source_folder + '/lib/**', '!' + source_folder + '/lib/{_*,_*/**}'],
-    },
-    watch: {
-        html: source_folder + '/**/*.html',
-        css: source_folder + '/scss/**/*.scss',
-        js: source_folder + '/js/**/*.js',
-        img: source_folder + '/img/**/*.{jpg,png,svg,gif,ico,webp,mp4,webm,webmanifest}',
-    },
-    clean: ['./' + project_folder + '/**/*', '!./' + project_folder + '/favicon.ico']
+import { path } from './gulp/config/path.js';
+import { plugins } from './gulp/config/plugins.js';
+
+const modeWebp = true;
+
+global.app = {
+    gulp: gulp,
+    path: path,
+    plugins: plugins,
+    modeWebp: modeWebp,
+};
+
+import { fonts } from './gulp/tasks/fonts.js';
+import { reset } from './gulp/tasks/reset.js';
+import { html } from './gulp/tasks/html.js';
+import { scss } from './gulp/tasks/scss.js';
+import { js } from './gulp/tasks/js.js';
+import { img } from './gulp/tasks/img.js';
+import { server } from './gulp/tasks/server.js';
+
+function watcher() {
+    gulp.watch(path.watch.html, html);
+    gulp.watch(path.watch.scss, scss);
+    gulp.watch(path.watch.js, js);
+    gulp.watch(path.watch.img, img);
 }
 
-let { src, dest } = require('gulp');
-let gulp = require('gulp');
-let browsersync = require('browser-sync').create();
-let fileinclude = require('gulp-file-include');
-let del = require('del');
-let sass = require('gulp-sass')(require('sass'));
-let autoprefixer = require('autoprefixer');
-let clean_css = require('gulp-clean-css');
-let uglify = require('gulp-uglify-es').default;
-let rename = require('gulp-rename');
-let postcss = require('gulp-postcss');
-// let babel = require('gulp-babel');
-let tailwindcss = require('tailwindcss');
+const mainTasks = gulp.parallel(html, scss, js, img);
 
-function browserSync(params){
-    browsersync.init({
-        server:{
-            baseDir: './' + project_folder + '/'
-        },
-        port:3000,
-        notify: false,
-    })
-}
-
-function html(){
-    return src(patch.src.html)
-        .pipe(fileinclude())
-        .pipe(css()) //for tailwind compile
-        .pipe(dest(patch.build.html))
-        .pipe(browsersync.stream())
-}
-
-function css(){
-    var plugins = [
-        autoprefixer({
-            overrideBrowserslist: ['last 5 versions'],
-            cascade: true,
-            grid: true
-        }),
-        tailwindcss(),
-    ];
-    return src(patch.src.css)
-        .pipe(sass())
-        .pipe(postcss(plugins))
-        .pipe(dest(patch.build.css))
-        .pipe(browsersync.stream())
-}
-
-function js(){
-    return src(patch.src.js)
-        .pipe(fileinclude())
-        .pipe(css()) //for tailwind compile
-        // .pipe(babel({
-        //     presets: ['@babel/env']
-        // }))
-        .pipe(dest(patch.build.js))
-        .pipe(browsersync.stream())
-}
-
-function images(){
-    return src(patch.src.img)
-        .pipe(dest(patch.build.img))
-        .pipe(src(patch.src.img))
-        .pipe(dest(patch.build.img))
-        .pipe(browsersync.stream())
-}
-
-function fonts(){
-    return src(patch.src.fonts)
-        .pipe(dest(patch.build.fonts))
-}
-
-function lib(){
-    return src(patch.src.lib)
-        .pipe(dest(patch.build.lib))
-}
-
-function watchFiles(){
-    gulp.watch([patch.watch.html], html);
-    gulp.watch([patch.watch.css], css);
-    gulp.watch([patch.watch.js], js);
-    gulp.watch([patch.watch.img], images);
-}
-
-function clean(){
-    return del(patch.clean);
-}
-
-
-let build = gulp.series(clean, gulp.parallel(images, js, css, html, fonts, lib));
-let watch = gulp.parallel(build, watchFiles, browserSync);
-
-
-exports.fonts = fonts;
-exports.images = images;
-exports.js = js;
-exports.css = css;
-exports.html = html;
-exports.build = build;
-exports.watch = watch;
-exports.default = watch;
-
-
-
-
-/*only single use functions*/
-
-// minify js and css files
-gulp.task('min', async function() {
-    let min_js = src(patch.src.js)
-        .pipe(fileinclude())
-        .pipe(dest(patch.build.js))
-        .pipe(uglify())
-        .pipe(
-            rename({
-                extname: '.min.js',
-            })
-        )
-        .pipe(dest(patch.build.js));
-
-    let min_css = src(patch.src.css)
-        .pipe(
-            sass({
-                outputStyle: 'expanded'
-            })
-        )
-        // .pipe(group_media())
-        .pipe(
-            autoprefixer({
-                overrideBrowserslist: ['last 5 versions'],
-                cascade: true,
-                grid: true
-            })
-        )
-        .pipe(dest(patch.build.css))
-        .pipe(clean_css())
-        .pipe(
-            rename({
-                extname: '.min.css',
-            })
-        )
-        .pipe(dest(patch.build.css));
-
-    return [min_css, min_js];
-});
+gulp.task(
+    'default',
+    gulp.series(reset, fonts, mainTasks, gulp.parallel(watcher, server))
+);

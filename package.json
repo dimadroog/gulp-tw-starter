@@ -1,33 +1,40 @@
 {
-  "name": "gulp-starter",
+  "name": "gulp-fls",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "main": "gulpfile.js",
+  "type": "module",
   "scripts": {
-    "gulp": "gulp"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "DG",
+  "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.0",
-    "autoprefixer": "^10.4.14",
-    "browser-sync": "^2.27.7",
-    "daisyui": "^3.5.0",
+    "autoprefixer": "^10.4.15",
     "del": "^6.0.0",
-    "gulp-babel": "^8.0.0",
+    "fs": "^0.0.1-security",
+    "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-file-include": "^2.3.0",
+    "gulp-group-css-media-queries": "^1.2.2",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^8.0.0",
+    "gulp-newer": "^1.4.0",
     "gulp-postcss": "^9.0.1",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
-    "gulp-uglify-es": "^3.0.0",
-    "postcss": "^8.4.27",
-    "sass": "^1.64.1",
-    "tailwindcss": "^3.3.3"
+    "gulp-webp": "^4.0.1",
+    "gulp-webp-html-nosvg": "^1.1.1",
+    "gulp-webpcss": "^1.1.1",
+    "sass": "^1.66.1",
+    "tailwindcss": "^3.3.3",
+    "unminified-webpack-plugin": "^3.0.0",
+    "webp-converter": "^2.2.3",
+    "webpack": "^5.88.2",
+    "webpack-stream": "^7.0.0"
   },
   "dependencies": {
-    "gulp": "^4.0.2",
-    "gulp-cli": "^2.3.0"
+    "browser-sync": "^2.29.3",
+    "tw-elements": "^1.0.0-rc.1"
   }
 }
