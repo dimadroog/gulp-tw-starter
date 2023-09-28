@@ -14,7 +14,7 @@ const path = {
         css: buildFolder + '/css/',
         html: buildFolder + '/',
         fonts: buildFolder + '/fonts/',
-        files: buildFolder + '/files/',
+        lib: buildFolder + '/lib/',
     },
     src: {
         js: [srcFolder + '/js/*.js', !srcFolder + '/js/_*.js'],
@@ -22,7 +22,7 @@ const path = {
         scss: [srcFolder + '/scss/*.scss', !srcFolder + '/scss/_*.scss'],
         html: [srcFolder + '/*.html', !srcFolder + '/_*.html'],
         fonts: srcFolder + '/fonts/**/*.*',
-        files: srcFolder + '/files/**/*.*',
+        lib: [srcFolder + '/lib/**', !srcFolder + '/lib/{_*,_*/**}'],
     },
     watch: {
         js: srcFolder+ '/**/*.js',
@@ -48,6 +48,7 @@ global.app = {
 
 
 import { fonts } from './gulp-tasks/fonts.js';
+import { lib } from './gulp-tasks/lib.js';
 import { reset } from './gulp-tasks/reset.js';
 import { html } from './gulp-tasks/html.js';
 import { scss } from './gulp-tasks/scss.js';
@@ -66,5 +67,5 @@ const mainTasks = gulp.parallel(html, scss, js, img);
 
 gulp.task(
     'default',
-    gulp.series(reset, fonts, mainTasks, gulp.parallel(watcher, server))
+    gulp.series(reset, fonts, lib, mainTasks, gulp.parallel(watcher, server))
 );
