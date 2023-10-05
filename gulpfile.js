@@ -4,8 +4,8 @@ import gulp from 'gulp';
 import * as nodePath from 'path';
 const rootFolder = nodePath.basename(nodePath.resolve());
 
-const buildFolder = './dist'; //or rootFolder
-const srcFolder = './app';
+const buildFolder = 'dist'; //or rootFolder
+const srcFolder = 'app';
 
 const path = {
     build: {
@@ -17,19 +17,18 @@ const path = {
         lib: buildFolder + '/lib/',
     },
     src: {
-        js: [srcFolder + '/js/*.js', !srcFolder + '/js/_*.js'],
+        js: [srcFolder + '/js/*.js', '!' + srcFolder + '/js/_*.js'],
         img: srcFolder + '/img/**/*.{jpg,png,svg,gif,ico,webp,mp4,webm,webmanifest}',
-        scss: [srcFolder + '/scss/*.scss', !srcFolder + '/scss/_*.scss'],
-        html: [srcFolder + '/*.html', !srcFolder + '/_*.html'],
+        scss: [srcFolder + '/scss/*.scss', '!' + srcFolder + '/scss/_*.scss'],
+        html: [srcFolder + '/*.html', '!' + srcFolder + '/_*.html'],
         fonts: srcFolder + '/fonts/**/*.*',
-        lib: [srcFolder + '/lib/**', !srcFolder + '/lib/{_*,_*/**}'],
+        lib: [srcFolder + '/lib/**', '!' + srcFolder + '/lib/{_*,_*/**}'],
     },
     watch: {
         js: srcFolder+ '/**/*.js',
         img: srcFolder+ '/img/**/*.{jpg,png,svg,gif,ico,webp,mp4,webm,webmanifest}',
         scss: srcFolder+ '/**/*.scss',
         html: srcFolder+ '/**/*.html',
-        files: srcFolder+ '/files/**/*.*',
     },
     clean: buildFolder,
     buildFolder: buildFolder,
